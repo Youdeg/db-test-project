@@ -9,6 +9,8 @@
     "typescript": "^5.0.4"
   },
   "scripts": {
-    "start": "npx tsc -b && node index.js"
+    "start": "npx tsc -b && npx prisma generate && node index.js",
+    "prisma:migrate": "npx prisma db push",
+    "prisma:studio": "npx prisma studio"
   }
 }
