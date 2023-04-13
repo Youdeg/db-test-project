@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId       Int        @id @default(autoincrement())
+  usermame     UserName   @relation(fields: [userNameId], references: [id])
+  userNameId   Int
+  location     Location   @relation(fields: [locationId], references: [id])
+  locationId   Int
+  login        Login      @relation(fields: [loginId], references: [id])
+  loginId      Int
+  dob          Dob        @relation(fields: [dobId], references: [id])
+  dobId        Int
+  registered   Registered @relation(fields: [registeredId], references: [id])
+  registeredId Int
+  phone        String
+  cell         String
+  id           Id         @relation(fields: [idId], references: [id])
+  idId         Int
+  picture      Picture    @relation(fields: [pictureId], references: [id])
+  pictureId    Int
+  nat          String
+  gender       String
+  email        String
+}
+
+model UserName {
+  id    Int    @id @default(autoincrement())
+  title String
+  first String
+  last  String
+  User  User[]
+}
+
+model Location {
+  id            Int         @id @default(autoincrement())
+  street        Street      @relation(fields: [streetId], references: [id])
+  city          String
+  state         String
+  country       String
+  postcode      Int
+  coordinates   Coordinates @relation(fields: [coordinatesId], references: [id])
+  timezone      Timezone    @relation(fields: [timezoneId], references: [id])
+  streetId      Int
+  coordinatesId Int
+  timezoneId    Int
+  User          User[]
+}
+
+model Street {
+  id       Int        @id @default(autoincrement())
+  number   Int
+  name     String
+  Location Location[]
+}
+
+model Coordinates {
+  id        Int        @id @default(autoincrement())
+  latitude  String
+  longitude String
+  Location  Location[]
+}
+
+model Timezone {
+  id          Int        @id @default(autoincrement())
+  offset      String
+  description String
+  Location    Location[]
+}
+
+model Login {
+  id       Int    @id @default(autoincrement())
+  uuid     String
+  username String
+  password String
+  salt     String
+  md5      String
+  sha1     String
+  sha256   String
+  User     User[]
+}
+
+model Dob {
+  id   Int    @id @default(autoincrement())
+  date String
+  age  Int
+  User User[]
+}
+
+model Registered {
+  id   Int    @id @default(autoincrement())
+  date String
+  age  Int
+  User User[]
+}
+
+model Id {
+  id    Int    @id @default(autoincrement())
+  name  String
+  value String
+  User  User[]
+}
+
+model Picture {
+  id        Int    @id @default(autoincrement())
+  large     String
+  medium    String
+  thumbnail String
+  User      User[]
+}
